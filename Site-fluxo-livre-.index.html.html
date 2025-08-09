@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxo Livre | A Ferramenta</title>
+    <!-- Inclui o Tailwind CSS para um design rápido e moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importa a fonte Inter para uma tipografia limpa */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estiliza o SVG do símbolo da tribo */
+        .tribe-symbol {
+            animation: rotate-symbol 10s linear infinite;
+        }
+        @keyframes rotate-symbol {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        /* Estilo para o loader */
+        .loader {
+            border-top-color: #3B82F6;
+            -webkit-animation: spinner 1.5s linear infinite;
+            animation: spinner 1.5s linear infinite;
+        }
+        @-webkit-keyframes spinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+        @keyframes spinner {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+
+    <!-- Cabeçalho Principal -->
+    <header class="bg-gray-900 p-6 md:p-12 text-center">
+        <div class="flex items-center justify-center space-x-4 mb-4">
+            <!-- Símbolo da tribo em SVG -->
+            <svg class="w-16 h-16 text-blue-500 tribe-symbol" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="3" />
+                <path d="M20 50 C30 40, 70 40, 80 50" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                <path d="M20 65 C30 55, 70 55, 80 65" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                <path d="M20 35 C30 25, 70 25, 80 35" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            </svg>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">Fluxo Livre</h1>
+        </div>
+        <p class="text-sm md:text-lg text-gray-400 max-w-2xl mx-auto">
+            Mova-se com propósito. Use a nossa ferramenta para descobrir novas rotas e slogans que inspiram.
+        </p>
+    </header>
+
+    <!-- Seção Principal da Ferramenta -->
+    <main class="container mx-auto p-6 md:p-12">
+        <div class="bg-gray-900 rounded-3xl p-6 md:p-10 shadow-xl border border-gray-800">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white flex items-center">
+                Ferramentas da Tribo ✨
+            </h2>
+            <p class="text-gray-400 mb-8">
+                Descreva o tipo de rota que procura e nós criamos um percurso e um slogan para si, com base nos valores do Fluxo Livre.
+            </p>
+
+            <!-- Gerador de Rotas -->
+            <div class="mb-8">
+                <label for="route-input" class="block text-base md:text-lg font-medium text-gray-300 mb-3">
+                    Gerador de Rotas de Skate
+                </label>
+                <div class="flex flex-col md:flex-row gap-4 mb-4">
+                    <input
+                        type="text"
+                        id="routeInput"
+                        class="flex-1 bg-gray-800 text-gray-100 placeholder-gray-500 rounded-xl p-4 focus:ring-2 focus:ring-blue-500 border border-gray-700 transition-colors duration-200"
+                        placeholder="Ex: uma rota por Lisboa com muitos grafites"
+                    />
+                    <button
+                        id="generateRouteBtn"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-transform transform hover:scale-105 duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Gerar Rota
+                    </button>
+                </div>
+                <div id="loadingIndicator" class="hidden flex justify-center items-center py-4">
+                    <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-8 w-8"></div>
+                </div>
+                <div id="routeOutput" class="mt-6 p-6 bg-gray-800 rounded-xl border border-gray-700 hidden">
+                    <h3 class="text-xl font-semibold mb-3 text-white">A tua Rota:</h3>
+                    <p id="generatedRouteText" class="text-gray-300 whitespace-pre-wrap"></p>
+                </div>
+            </div>
+
+            <!-- Gerador de Slogans -->
+            <div>
+                <label for="sloganBtn" class="block text-base md:text-lg font-medium text-gray-300 mb-3">
+                    Gerador de Slogan para a Rota
+                </label>
+                <p class="text-sm text-gray-400 mb-4">
+                    Crie uma frase inspiradora para a rota que acabou de gerar.
+                </p>
+                <button
+                    id="sloganBtn"
+                    class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-transform transform hover:scale-105 duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled
+                >
+                    Gerar Slogan
+                </button>
+                <div id="sloganOutput" class="mt-6 p-6 bg-gray-800 rounded-xl border border-gray-700 hidden text-center">
+                    <h3 class="text-xl font-semibold mb-3 text-white">Slogan:</h3>
+                    <p id="generatedSloganText" class="text-green-300 text-xl md:text-2xl italic font-semibold"></p>
+                </div>
+            </div>
+
+            <div id="errorMessage" class="mt-6 p-4 bg-red-800 text-red-100 rounded-lg border border-red-700 hidden"></div>
+        </div>
+    </main>
+
+    <!-- JavaScript para a lógica da aplicação -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const routeInput = document.getElementById('routeInput');
+            const generateRouteBtn = document.getElementById('generateRouteBtn');
+            const sloganBtn = document.getElementById('sloganBtn');
+            const routeOutput = document.getElementById('routeOutput');
+            const generatedRouteText = document.getElementById('generatedRouteText');
+            const sloganOutput = document.getElementById('sloganOutput');
+            const generatedSloganText = document.getElementById('generatedSloganText');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorMessage = document.getElementById('errorMessage');
+
+            let generatedRoute = '';
+
+            // Função para chamar a API Gemini
+            const callGeminiApi = async (promptText) => {
+                errorMessage.classList.add('hidden');
+                loadingIndicator.classList.remove('hidden');
+                
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: promptText }] });
+                
+                // Configuração do payload para a API
+                const payload = { contents: chatHistory };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                let retries = 0;
+                const maxRetries = 5;
+                let delay = 1000; // 1 segundo
+                
+                while (retries < maxRetries) {
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (response.status === 429) { // Too Many Requests
+                            retries++;
+                            delay *= 2; // Aumenta o delay exponencialmente
+                            await new Promise(res => setTimeout(res, delay));
+                            continue; // Tenta novamente
+                        }
+
+                        if (!response.ok) {
+                            throw new Error(`Erro na API: ${response.statusText}`);
+                        }
+
+                        const result = await response.json();
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            return text;
+                        } else {
+                            throw new Error('Estrutura de resposta da API inesperada.');
+                        }
+                    } catch (err) {
+                        console.error("Erro na chamada da API:", err);
+                        errorMessage.textContent = 'Ocorreu um erro ao gerar a resposta. Por favor, tente novamente.';
+                        errorMessage.classList.remove('hidden');
+                        break;
+                    }
+                }
+                
+                loadingIndicator.classList.add('hidden');
+                return '';
+            };
+
+            // Evento para o botão de Gerar Rota
+            generateRouteBtn.addEventListener('click', async () => {
+                const routeInputText = routeInput.value.trim();
+                if (routeInputText === '') {
+                    errorMessage.textContent = 'Por favor, descreva a rota que pretende.';
+                    errorMessage.classList.remove('hidden');
+                    return;
+                }
+                
+                generateRouteBtn.disabled = true;
+                sloganBtn.disabled = true;
+                routeOutput.classList.add('hidden');
+                sloganOutput.classList.add('hidden');
+                
+                const prompt = `Crie uma rota de skate em texto para um membro da tribo "Fluxo Livre" que valoriza respeito, criatividade, sustentabilidade e persistência. A rota deve ser na seguinte localização/tema: "${routeInputText}". Descreva a rota com uma linguagem inspiradora e inclua pelo menos 3 pontos de interesse que reflitam os valores da tribo. Por favor, apresente a rota num formato de lista simples.`;
+                const text = await callGeminiApi(prompt);
+                
+                loadingIndicator.classList.add('hidden');
+                if (text) {
+                    generatedRoute = text;
+                    generatedRouteText.textContent = generatedRoute;
+                    routeOutput.classList.remove('hidden');
+                    sloganBtn.disabled = false;
+                }
+                
+                generateRouteBtn.disabled = false;
+            });
+
+            // Evento para o botão de Gerar Slogan
+            sloganBtn.addEventListener('click', async () => {
+                if (!generatedRoute) {
+                    errorMessage.textContent = 'Por favor, gere uma rota primeiro para poder criar um slogan.';
+                    errorMessage.classList.remove('hidden');
+                    return;
+                }
+                
+                sloganBtn.disabled = true;
+                loadingIndicator.classList.remove('hidden');
+                
+                const prompt = `Crie um slogan curto e inspirador para a seguinte rota de skate da tribo "Fluxo Livre": "${generatedRoute}". O slogan deve refletir os valores de respeito, criatividade, sustentabilidade e persistência.`;
+                const text = await callGeminiApi(prompt);
+                
+                loadingIndicator.classList.add('hidden');
+                if (text) {
+                    generatedSloganText.textContent = text.replace(/"/g, ''); // Remove as aspas do slogan, se existirem
+                    sloganOutput.classList.remove('hidden');
+                }
+                sloganBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
